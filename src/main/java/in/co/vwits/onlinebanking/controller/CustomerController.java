@@ -16,6 +16,7 @@ import in.co.vwits.onlinebanking.service.CustomerService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class CustomerController {
 
 	@Autowired

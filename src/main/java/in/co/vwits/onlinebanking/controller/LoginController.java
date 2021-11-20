@@ -15,12 +15,13 @@ import in.co.vwits.onlinebanking.service.LoginService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class LoginController {
 	
 	@Autowired
 	LoginService loginService;
 
-	@GetMapping
+	@PostMapping
 	@RequestMapping(value = "user/login")
 	public Account checkCustomerLogin(@RequestBody Login login) {
 	return loginService.customerLogin(login.getUser(), login.getPassword());

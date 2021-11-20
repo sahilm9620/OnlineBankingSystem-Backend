@@ -14,6 +14,7 @@ import in.co.vwits.onlinebanking.service.TransactionService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class TransactionController {
 	
 	@Autowired

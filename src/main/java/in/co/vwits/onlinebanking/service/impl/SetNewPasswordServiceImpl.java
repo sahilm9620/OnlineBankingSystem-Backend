@@ -1,6 +1,7 @@
 package in.co.vwits.onlinebanking.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import in.co.vwits.onlinebanking.entity.Account;
@@ -22,7 +23,8 @@ public class SetNewPasswordServiceImpl implements SetNewPasswordService {
 	@Override
 	public Account updatePassword(String loginpassword, Integer accountnumber) {
 		Account account =accountRepo.findById(accountnumber).get();
-		account.setLoginPassword(loginpassword);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		account.setLoginPassword(encoder.encode(loginpassword));
 		accountRepo.flush();
 		return account;
 	}
@@ -30,7 +32,8 @@ public class SetNewPasswordServiceImpl implements SetNewPasswordService {
 	@Override
 	public Admin updateAdminPassword(String loginpassword, Integer aid) {
 		 Admin admin =adminRepo.findById(aid).get();
-		 admin.setPassword(loginpassword);
+		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		 admin.setPassword(encoder.encode(loginpassword));
 		 adminRepo.flush();
 		return admin;
 	}
@@ -38,7 +41,8 @@ public class SetNewPasswordServiceImpl implements SetNewPasswordService {
 	@Override
 	public Account updateTransactionPassword(String password, Integer user) {
 		Account account =accountRepo.findById(user).get();
-		account.setTransectionPassword(password);
+		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		account.setTransectionPassword(encoder.encode(password));
 		accountRepo.flush();
 		return account;
 	}

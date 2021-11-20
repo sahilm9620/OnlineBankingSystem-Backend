@@ -2,10 +2,14 @@ package in.co.vwits.onlinebanking.service.impl;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 import freemarker.template.TemplateException;
 import in.co.vwits.onlinebanking.entity.Account;
 import in.co.vwits.onlinebanking.entity.Approval;
@@ -53,7 +57,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public Approval addApproval(Integer custId, Approval app, Integer adminId) {
 		if(app.getIsApproved().equals("N"))
 		{
-
+			 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			Customer customer = customerRepo.getById(custId);
 			app.setIsApproved("Y");
 
@@ -68,17 +72,20 @@ public class ApprovalServiceImpl implements ApprovalService {
 			account.setUserid(custId);
 			account.setAccountStatus("Y");
 			
-			accountRepo.save(account);
+			
 			customer.setAccount(account);
 			customer.setApproval(app);
 			customerRepo.flush();
 
 			try {
-				emailService.sendEmail(customer.getAccount(), "account_verify_email.ftlh",customer.getFname() + " Your Account is Verified", customer.getEmail());
+				emailService.sendEmail(account, "account_verify_email.ftlh",customer.getFname() + " Your Account is Verified", customer.getEmail());
 			} catch (MessagingException | IOException | TemplateException e) {
 
 				e.printStackTrace();
 			}
+			account.setLoginPassword(encoder.encode(account.getLoginPassword())); 
+			account.setTransectionPassword(encoder.encode(account.getTransectionPassword())); 
+			accountRepo.save(account);
 			return app;
 		}else
 			return null;

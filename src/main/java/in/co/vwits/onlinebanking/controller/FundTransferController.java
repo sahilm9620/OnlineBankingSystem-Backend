@@ -15,6 +15,7 @@ import in.co.vwits.onlinebanking.service.FundTransferService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class FundTransferController {
 
 	@Autowired

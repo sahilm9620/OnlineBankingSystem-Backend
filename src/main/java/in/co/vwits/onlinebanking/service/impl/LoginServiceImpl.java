@@ -2,6 +2,7 @@ package in.co.vwits.onlinebanking.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -23,11 +24,12 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Override
 	public Account customerLogin(Integer userId, String pass) {
-		  
+		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			Account account =accountRepo.findByuserid(userId);
+			
 			if(account==null)
 				return null;
-			else if(account.getLoginPassword().equals(pass) && account.getAccountStatus().equals("Y"))
+			else if(encoder.matches(pass, account.getLoginPassword()) && account.getAccountStatus().equals("Y"))
 			return account;
 			else
 				return null;
@@ -39,10 +41,11 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Admin adminLogin(Integer adminId, String pass) {
 		Admin admin = adminRepo.findById(adminId).get();
+		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		if(admin==null)
 			return null;
-		else if(admin.getPassword().equals(pass))
+		else if( encoder.matches(pass, admin.getPassword()))
 			return admin;
 		else
 			return null;

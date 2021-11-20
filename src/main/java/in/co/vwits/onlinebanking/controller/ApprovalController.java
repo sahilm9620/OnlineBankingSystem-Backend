@@ -15,6 +15,7 @@ import in.co.vwits.onlinebanking.service.ApprovalService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class ApprovalController {
 
 	@Autowired

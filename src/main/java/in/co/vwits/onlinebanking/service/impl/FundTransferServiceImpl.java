@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -35,9 +36,10 @@ public class FundTransferServiceImpl implements FundTransferService {
 
 		Account toAccount = accountRepo.getById(toAccNo);
 		Account fromAccount = accountRepo.getById(fromAccNo);
-				
+		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		 
 		//Validation -----> The Balance amount should be greater than the Amount Transfered 
-		if(fromAccount.getCurrentBalance()>=tran.getAmounttransferred() && toAccount.getTransectionPassword().equals(tranPassword)) {
+		if(fromAccount.getCurrentBalance()>=tran.getAmounttransferred() && encoder.matches(tranPassword, fromAccount.getTransectionPassword())) {
 				tran.setAccountto(toAccount);
 				tran.setAccountfrom(fromAccount);
 				tran.setTransactiondate(LocalDateTime.now());

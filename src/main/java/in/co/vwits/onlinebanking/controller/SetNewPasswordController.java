@@ -13,6 +13,7 @@ import in.co.vwits.onlinebanking.service.SetNewPasswordService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class SetNewPasswordController {
 
 	@Autowired

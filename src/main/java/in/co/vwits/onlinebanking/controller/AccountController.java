@@ -13,6 +13,7 @@ import in.co.vwits.onlinebanking.service.AccountService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class AccountController {
 
 	@Autowired

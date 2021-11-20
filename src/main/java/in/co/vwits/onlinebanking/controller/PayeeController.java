@@ -18,6 +18,7 @@ import in.co.vwits.onlinebanking.service.PayeeService;
 
 @CrossOrigin(origins="*")
 @RestController
+@RequestMapping("api")
 public class PayeeController {
 
 	@Autowired
@@ -27,7 +28,6 @@ public class PayeeController {
 	@GetMapping
 	@RequestMapping(value = "payee/{accNo}")
 	public List<Payee> getPayee(@PathVariable("accNo") int accNo) {
-		System.out.println("Select Payee......................................called");
 		return payeeService.selectPayeeService(accNo);
 	}
 
@@ -40,9 +40,8 @@ public class PayeeController {
 
 	//Adding of Payees
 	@PostMapping
-	@RequestMapping(value = "payee/{accNo}", consumes="application/json")
+	@RequestMapping(value = "payee/add/{accNo}", consumes="application/json")
 	public Payee addPayee(@PathVariable("accNo") int accNo , @RequestBody Payee payee) {
-		System.out.println("addPayee()...method ");
 		return payeeService.insertPayeeService(accNo,payee);
 	}
 	
@@ -51,7 +50,6 @@ public class PayeeController {
 	@DeleteMapping
 	@RequestMapping(value="payee/delete/{beneficiaryId}")
 	public Payee deletePayee(@PathVariable("beneficiaryId") int beneficiaryId) {
-		System.out.println("Delete payeeeeee...................... added");
 		return payeeService.deletePayeeService(beneficiaryId);
 	}
 }
