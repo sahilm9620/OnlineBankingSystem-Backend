@@ -56,13 +56,13 @@ public class FundTransferServiceImpl implements FundTransferService {
 				//Mailing the details of the transaction to the Respective Account Numbers
 
 				try {
-					emailService.sendEmail(tran, "credited.ftlh", tran.getAmounttransferred()+"₹ is Credited", toAccount.getCustomer().getEmail());
+					emailService.sendEmail(tran, "credited.ftlh", tran.getAmounttransferred()+" is Credited", toAccount.getCustomer().getEmail());
 				} catch (MessagingException | IOException | TemplateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				try {
-					emailService.sendEmail(tran, "debited.ftlh", tran.getAmounttransferred()+"₹ is Debited", fromAccount.getCustomer().getEmail());
+					emailService.sendEmail(tran, "debited.ftlh", tran.getAmounttransferred()+" is Debited", fromAccount.getCustomer().getEmail());
 				} catch (MessagingException | IOException | TemplateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
