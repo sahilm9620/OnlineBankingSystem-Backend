@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 public class Customer {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerid;
 	private String title;
 	private String fname;
@@ -37,14 +37,13 @@ public class Customer {
 	private String line2;
 	private int pincode;
 	private String state;
-	
+
 	@JsonIgnore
 	@OneToOne
 	Account account;
-	
+
 	@JsonIgnore
 	@OneToOne
 	Approval approval;
-	
-	
+
 }

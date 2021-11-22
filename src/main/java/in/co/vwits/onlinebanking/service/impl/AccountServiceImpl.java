@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import in.co.vwits.onlinebanking.entity.Account;
 import in.co.vwits.onlinebanking.entity.Customer;
+import in.co.vwits.onlinebanking.entity.exception.AccountNotFoundException;
 import in.co.vwits.onlinebanking.repository.AccountRepository;
 import in.co.vwits.onlinebanking.repository.CustomerRepository;
 import in.co.vwits.onlinebanking.service.AccountService;
@@ -16,12 +17,12 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	AccountRepository accountRepo;
-	
+
 	@Autowired
 	CustomerRepository customerRepo;
-	
+
 	@Override
-	public Account createAccount(Account accountToBeCreated,Integer custId) {
+	public Account createAccount(Account accountToBeCreated, Integer custId) {
 		Customer customer = customerRepo.getById(custId);
 		accountToBeCreated.setCustomer(customer);
 		customer.setAccount(accountToBeCreated);
@@ -30,16 +31,18 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account getAccount(Integer id) {
-		return accountRepo.findById(id).get();
+	public Account getAccount(Integer id) throws AccountNotFoundException {
+		Account account = accountRepo.findById(id).get();
+		if(account==null)
+			throw new AccountNotFoundException("Account With Account Number" + id + "Not Fount..!");
+			else
+				return account;
 	}
 
 	@Override
 	public List<Account> getAllAccount() {
-		
+
 		return accountRepo.findAll();
 	}
-
-
 
 }

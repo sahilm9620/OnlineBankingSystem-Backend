@@ -16,13 +16,13 @@ public class SetNewPasswordServiceImpl implements SetNewPasswordService {
 
 	@Autowired
 	AccountRepository accountRepo;
-	
+
 	@Autowired
 	AdminRepository adminRepo;
-	
+
 	@Override
 	public Account updatePassword(String loginpassword, Integer accountnumber) {
-		Account account =accountRepo.findById(accountnumber).get();
+		Account account = accountRepo.findById(accountnumber).get();
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		account.setLoginPassword(encoder.encode(loginpassword));
 		accountRepo.flush();
@@ -31,17 +31,17 @@ public class SetNewPasswordServiceImpl implements SetNewPasswordService {
 
 	@Override
 	public Admin updateAdminPassword(String loginpassword, Integer aid) {
-		 Admin admin =adminRepo.findById(aid).get();
-		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		 admin.setPassword(encoder.encode(loginpassword));
-		 adminRepo.flush();
+		Admin admin = adminRepo.findById(aid).get();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		admin.setPassword(encoder.encode(loginpassword));
+		adminRepo.flush();
 		return admin;
 	}
 
 	@Override
 	public Account updateTransactionPassword(String password, Integer user) {
-		Account account =accountRepo.findById(user).get();
-		 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		Account account = accountRepo.findById(user).get();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		account.setTransectionPassword(encoder.encode(password));
 		accountRepo.flush();
 		return account;

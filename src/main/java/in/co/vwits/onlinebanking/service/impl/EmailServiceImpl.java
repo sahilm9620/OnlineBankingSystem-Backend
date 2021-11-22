@@ -25,23 +25,26 @@ public class EmailServiceImpl implements EmailService {
 		this.configuration = configuration;
 		this.javaMailSender = javaMailSender;
 	}
+
 	@Override
-	public void sendEmail(Object user,String templateName,String title,String email) throws MessagingException, IOException, TemplateException {
+	public void sendEmail(Object user, String templateName, String title, String email)
+			throws MessagingException, IOException, TemplateException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 		helper.setSubject(title);
 		helper.setTo(email);
-		String emailContent = getEmailContent(user,templateName);
+		String emailContent = getEmailContent(user, templateName);
 		helper.setText(emailContent, true);
 		javaMailSender.send(mimeMessage);
 	}
+
 	@Override
-	public String getEmailContent(Object user,String templateName) throws IOException, TemplateException {
+	public String getEmailContent(Object user, String templateName) throws IOException, TemplateException {
 		StringWriter stringWriter = new StringWriter();
 		Map<String, Object> model = new HashMap<>();
 		model.put("user", user);
 		configuration.getTemplate(templateName).process(model, stringWriter);
-		
+
 		return stringWriter.getBuffer().toString();
 	}
 }

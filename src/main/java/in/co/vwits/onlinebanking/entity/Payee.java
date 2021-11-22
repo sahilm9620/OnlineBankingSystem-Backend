@@ -15,7 +15,7 @@ import lombok.Data;
 public class Payee {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer beneficiaryid;
 
 	private Integer baccountnumber;

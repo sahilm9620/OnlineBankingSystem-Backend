@@ -19,19 +19,18 @@ import lombok.Data;
 @Component
 public class Approval {
 
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer approvalid;
 	@JsonIgnore
 	@OneToOne
 	private Customer cid;
 	@Column(unique = true)
-	private Integer SRN = (int)(Math.random()*10000); 
-	
+	private Integer SRN = (int) (Math.random() * 10000);
+
 	@ManyToOne
 	private Admin aid;
-	
-	private String isApproved="N";
-	
-	
+
+	private String isApproved = "N";
+
 }

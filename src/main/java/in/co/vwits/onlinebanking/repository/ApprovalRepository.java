@@ -9,5 +9,6 @@ import in.co.vwits.onlinebanking.entity.Customer;
 
 public interface ApprovalRepository extends JpaRepository<Approval, Integer> {
 	List<Approval> findByisApproved(String isApproved);
+
 	Approval findBycid(Customer cust);
 }

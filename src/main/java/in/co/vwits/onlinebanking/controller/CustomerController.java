@@ -14,32 +14,29 @@ import org.springframework.web.bind.annotation.RestController;
 import in.co.vwits.onlinebanking.entity.Customer;
 import in.co.vwits.onlinebanking.service.CustomerService;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api")
 public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
-	
+
 	@GetMapping
 	@RequestMapping(value = "customer/{CustId}")
 	public Customer getCustomer(@PathVariable("CustId") int CustId) {
 		return customerService.getCustomer(CustId);
 	}
-	
-	
 
 	@GetMapping
 	@RequestMapping(value = "customer")
-	public List<Customer> getAllCustomers(){
+	public List<Customer> getAllCustomers() {
 		return customerService.getAllCustomer();
 	}
 
-	
-	//Adds a customer
+	// Adds a customer
 	@PostMapping
-	@RequestMapping(value="customer/add", consumes="application/json")
+	@RequestMapping(value = "customer/add", consumes = "application/json")
 	public Customer addCustomerService(@RequestBody Customer customer) {
 		return customerService.addCustomer(customer);
 	}

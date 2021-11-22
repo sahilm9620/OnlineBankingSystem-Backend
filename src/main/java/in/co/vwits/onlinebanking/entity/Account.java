@@ -20,7 +20,7 @@ import lombok.Data;
 public class Account {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer accountnumber;
 	@JsonIgnore
 	@OneToOne
@@ -33,18 +33,17 @@ public class Account {
 	private String loginPassword;
 	private String transectionPassword;
 	private LocalDate createdOn = java.time.LocalDate.now();;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")
 	private List<Payee> payees;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "accountto")
 	private List<Transaction> transactionto;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "accountfrom")
 	private List<Transaction> transactionfrom;
-	
 
 }

@@ -1,5 +1,6 @@
 package in.co.vwits.onlinebanking.service.impl;
 
+import static in.co.vwits.onlinebanking.utils.Constants.WELCOME_EMAIL_TEMPLATE;
 import java.io.IOException;
 import java.util.List;
 import javax.mail.MessagingException;
@@ -22,22 +23,22 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	CustomerRepository customerRepo;
-	
+
 	@Autowired
 	EmailService emailService;
-	
+
 	@Autowired
 	ApprovalRepository approvalRepo;
-	
+
 	@Autowired
 	AdminRepository adminRepository;
-	
+
 	@Autowired
 	Approval approval;
-	
+
 	@Override
 	public Customer addCustomer(Customer customerToBeAdded) {
-		
+
 		Customer customer = customerRepo.saveAndFlush(customerToBeAdded);
 		Admin admin = adminRepository.findById(1).get();
 		approval.setAid(admin);
@@ -45,7 +46,8 @@ public class CustomerServiceImpl implements CustomerService {
 		Approval approvalSaved = approvalRepo.saveAndFlush(approval);
 		customer.setApproval(approvalSaved);
 		try {
-			emailService.sendEmail(customerToBeAdded, "registration_email.ftlh", "Welcome " + customerToBeAdded.getFname() + " To VW Bank" , customerToBeAdded.getEmail());
+			emailService.sendEmail(customerToBeAdded, WELCOME_EMAIL_TEMPLATE,
+					"Welcome " + customerToBeAdded.getFname() + " To VW Bank", customerToBeAdded.getEmail());
 		} catch (MessagingException | IOException | TemplateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,13 +57,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer getCustomer(Integer customerId) {
-		
+
 		return customerRepo.findById(customerId).get();
 	}
 
 	@Override
 	public List<Customer> getAllCustomer() {
-	
+
 		return customerRepo.findAll();
 	}
 

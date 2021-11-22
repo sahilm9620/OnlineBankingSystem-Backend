@@ -20,11 +20,11 @@ import lombok.Data;
 public class Admin {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer adminid;
 	private String password;
 	@JsonIgnore
 	@OneToMany(mappedBy = "aid")
 	List<Approval> approvals;
-	
+
 }

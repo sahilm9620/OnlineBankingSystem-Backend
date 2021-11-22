@@ -19,13 +19,13 @@ public class PayeeServiceImpl implements PayeeService {
 
 	@Autowired
 	PayeeRepository payeeRepo;
-	
+
 	@Autowired
 	AccountRepository accountRepo;
-	
+
 	@Override
 	public Payee insertPayeeService(Integer accNo, Payee payee) {
-		Account account =accountRepo.getById(accNo);
+		Account account = accountRepo.getById(accNo);
 		payee.setAccount(account);
 		payeeRepo.saveAndFlush(payee);
 		return payee;
@@ -35,10 +35,8 @@ public class PayeeServiceImpl implements PayeeService {
 	public List<Payee> selectPayeeService(Integer AccNo) {
 		List<Payee> list = payeeRepo.findAll();
 		List<Payee> flist = new ArrayList<Payee>();
-		for(Payee p:list)
-		{
-			if(p.getAccount().getAccountnumber()==AccNo)
-			{
+		for (Payee p : list) {
+			if (p.getAccount().getAccountnumber() == AccNo) {
 				flist.add(p);
 			}
 		}
@@ -47,7 +45,7 @@ public class PayeeServiceImpl implements PayeeService {
 
 	@Override
 	public List<Payee> selectAllPayeeService() {
-		
+
 		return payeeRepo.findAll();
 	}
 

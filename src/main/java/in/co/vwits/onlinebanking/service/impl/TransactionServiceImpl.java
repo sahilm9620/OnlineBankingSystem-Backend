@@ -17,16 +17,14 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	TransactionRepository transactionRepo;
-	
+
 	@Override
 	public List<Transaction> selectTransService(Integer accNo) {
-		
+
 		List<Transaction> listOfTransaction = transactionRepo.findAll();
 		List<Transaction> transactionOfAcc = new ArrayList<>();
-		for(Transaction t:listOfTransaction)
-		{
-			if(t.getAccountto().getAccountnumber()==accNo || t.getAccountfrom().getAccountnumber()==accNo)
-			{
+		for (Transaction t : listOfTransaction) {
+			if (t.getAccountto().getAccountnumber() == accNo || t.getAccountfrom().getAccountnumber() == accNo) {
 				transactionOfAcc.add(t);
 			}
 		}
@@ -35,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<Transaction> selectAllTransactionsService() {
-		
+
 		return transactionRepo.findAll();
 	}
 

@@ -1,15 +1,17 @@
 package in.co.vwits.onlinebanking.service.impl;
 
+import static in.co.vwits.onlinebanking.utils.Constants.YES;
+import static in.co.vwits.onlinebanking.utils.Constants.NO;
+import static in.co.vwits.onlinebanking.utils.Constants.ACCOUNT_VERIFICATION_EMAIL_TEMPLATE;
+import static in.co.vwits.onlinebanking.utils.Constants.DEFAULT_ACCOUNT_TYPE;
 import java.io.IOException;
 import java.util.List;
-
+import java.util.Random;
 import javax.mail.MessagingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import freemarker.template.TemplateException;
 import in.co.vwits.onlinebanking.entity.Account;
 import in.co.vwits.onlinebanking.entity.Approval;
@@ -24,7 +26,6 @@ import in.co.vwits.onlinebanking.service.EmailService;
 @CrossOrigin
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
-
 
 	@Autowired
 	AccountRepository accountRepo;
@@ -43,62 +44,62 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public List<Approval> verifyAccount() {
-		return approvalRepo.findByisApproved("N");
+		return approvalRepo.findByisApproved(NO);
 	}
 
 	@Override
 	public void approveAccount(Integer custId) {
-		accountRepo.getById(custId).setAccountStatus("Y");
+		accountRepo.getById(custId).setAccountStatus(YES);
 		accountRepo.flush();
 
 	}
 
 	@Override
 	public Approval addApproval(Integer custId, Approval app, Integer adminId) {
-		if(app.getIsApproved().equals("N"))
-		{
-			 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if (app.getIsApproved().equals(NO)) {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			Customer customer = customerRepo.getById(custId);
-			app.setIsApproved("Y");
+			app.setIsApproved(YES);
 
 			approvalRepo.flush();
 
-			Account account=new Account();
-			account.setLoginPassword("1234");
-			account.setAccountType("saving");
+			Random randomPasswordGenerator = new Random();
+
+			Account account = new Account();
+			account.setLoginPassword(randomPasswordGenerator.nextInt(10000) + "");
+			account.setAccountType(DEFAULT_ACCOUNT_TYPE);
 			account.setCurrentBalance(customer.getInitialAmount());
 			account.setCustomer(customer);
-			account.setTransectionPassword("1234");
+			account.setTransectionPassword(randomPasswordGenerator.nextInt(10000) + "");
 			account.setUserid(custId);
-			account.setAccountStatus("Y");
-			
-			
+			account.setAccountStatus(YES);
+			accountRepo.saveAndFlush(account);
 			customer.setAccount(account);
 			customer.setApproval(app);
 			customerRepo.flush();
 
 			try {
-				emailService.sendEmail(account, "account_verify_email.ftlh",customer.getFname() + " Your Account is Verified", customer.getEmail());
+				emailService.sendEmail(account, ACCOUNT_VERIFICATION_EMAIL_TEMPLATE,
+						customer.getFname() + " Your Account is Verified", customer.getEmail());
 			} catch (MessagingException | IOException | TemplateException e) {
 
 				e.printStackTrace();
 			}
-			account.setLoginPassword(encoder.encode(account.getLoginPassword())); 
-			account.setTransectionPassword(encoder.encode(account.getTransectionPassword())); 
-			accountRepo.save(account);
+
+			account.setLoginPassword(encoder.encode(account.getLoginPassword()));
+			account.setTransectionPassword(encoder.encode(account.getTransectionPassword()));
+			accountRepo.flush();
+			
 			return app;
-		}else
+		} else
 			return null;
 
-			
 	}
 
 	@Override
 	public Approval isApprove(Integer custid) {
-		Customer cust =customerRepo.findById(custid).get();
+		Customer cust = customerRepo.findById(custid).get();
 		return approvalRepo.findBycid(cust);
 	}
-
-	
 
 }

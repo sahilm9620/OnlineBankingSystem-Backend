@@ -1,6 +1,5 @@
 package in.co.vwits.onlinebanking.entity;
 
-
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,7 @@ import lombok.Data;
 public class Transaction {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer transactionid;
 	private Integer amounttransferred;
 	private String modeoftransaction;
@@ -27,10 +26,9 @@ public class Transaction {
 	@JsonIgnore
 	@ManyToOne
 	private Account accountto;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	private Account accountfrom;
-	
-	
+
 }

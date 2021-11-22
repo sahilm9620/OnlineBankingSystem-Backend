@@ -1,6 +1,5 @@
 package in.co.vwits.onlinebanking.entity;
 
-
 import lombok.Data;
 
 @Data
