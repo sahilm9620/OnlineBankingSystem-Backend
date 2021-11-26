@@ -50,7 +50,7 @@ public class FundTransferServiceImpl implements FundTransferService {
 			transactionRepo.save(tran);
 			// Taking the amount transfered
 			int amt = tran.getAmounttransferred();
-			System.out.println(toAccNo);
+	
 
 			// Also crediting and debiting the amount from the accounts
 			toAccount.setCurrentBalance(toAccount.getCurrentBalance() + amt);
