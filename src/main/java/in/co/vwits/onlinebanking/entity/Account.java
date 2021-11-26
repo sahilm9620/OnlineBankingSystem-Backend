@@ -22,7 +22,7 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer accountnumber;
-	@JsonIgnore
+	
 	@OneToOne
 	private Customer customer;
 	@Column(unique = true)

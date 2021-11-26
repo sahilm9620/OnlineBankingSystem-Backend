@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import in.co.vwits.onlinebanking.entity.Account;
 import in.co.vwits.onlinebanking.entity.exception.AccountNotFoundException;
 import in.co.vwits.onlinebanking.service.AccountService;
@@ -32,12 +31,6 @@ public class AccountController {
 		return null;
 	}
 
-	// @PostMapping
-	// @RequestMapping(value = "account/{custId}")
-	// public Account addAccount(@PathVariable Integer custId ,@RequestBody Account
-	// accountToBeCreated) {
-	// return accountService.createAccount(accountToBeCreated,custId);
-	// }
 
 	@GetMapping
 	@RequestMapping(value = "account/")
